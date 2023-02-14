@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Socket Io Test</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background: #eee; }
+        .main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <!-- 대기실 -->
+    <div class="col-lg-4" style="padding-top:5%">
+        <div class="card">
+            <div class="card-header">
+                대기실 (모든 유저 대화 가능)
+            </div>
+            <div class="card-body">
+                <form action="">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="message"/>
+                        <div class="input-group-append">
+                            <button id="msg-send" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <ul id="messages"></ul>
+            </div>
+        </div>
+    </div>
+    <!-- 유저 이름 -->
+    <div class="col-lg-4" style="padding-top:3%">
+        <div class="card">
+            <div class="card-header">
+                유저이름
+            </div>
+            <div class="card-body">
+                <form action="">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="user-name"/>
+                        <div class="input-group-append">
+                            <button id="user-send" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding:3%">
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">StarWings</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>몬스터 레이드</li>
+                            <li>경품 : 없음</li>
+                        </ul>
+                        <button type="button" id="starwings" class="w-100 btn btn-lg btn-outline-primary star_btn" value="starwings">참여하기</button>
+                        <button style="margin-top: 20%" type="button" id="startwings_out" class="w-100 btn btn-lg btn-outline-primary">나가기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">norriGum</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>몬스터 레이드</li>
+                            <li>경품 : 없음</li>
+                        </ul>
+                        <button type="button" id="norriGum" class="w-100 btn btn-lg btn-outline-primary norri_btn" value="norriGum">참여하기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">dmc</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>몬스터 레이드</li>
+                            <li>경품 : 없음</li>
+                        </ul>
+                        <button type="button" id="dmc" class="w-100 btn btn-lg btn-outline-primary dmc_btn" value="dmc">참여하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  무기 선택 -->
+    <div class="col-lg-8" style="padding-bottom: 5%">
+        <div class="card">
+            <div class="card-header">
+                무기 선택
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-1">
+                    <select id="select-weapon" class="form-control">
+                        <option value="10" selected="selected">기본 무기</option>
+                        <option value="50">좀 강한 무기</option>
+                        <option value="300" >엄청 강한 무기</option>
+                        <option value="1000" >미친 강한 무기</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button id="select-weapon-button" class="btn btn-success">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room 대기실 -->
+    <div class="col-lg-8" style="padding-bottom: 5%">
+        <div class="card">
+            <div class="card-header">
+                ROOM 대기실
+            </div>
+            <div class="card-body">
+                <div class="input-group mb-1">
+                    <select id="select-room" class="form-control">
+                        <option value="none" disabled="disabled" selected="selected">방을 선택해주세요</option>
+                        <option value="starwings" disabled="disabled">starwings</option>
+                        <option value="norriGum" disabled="disabled">norriGum</option>
+                        <option value="dmc" disabled="disabled">dmc</option>
+                    </select>
+                </div>
+                <form action="">
+                    <div class="input-group mb-1">
+                        <input type="text" class="form-control" id="room-message" autocomplete="off" />
+                        <div class="input-group-append">
+                            <button id="room-msg-send" class="btn btn-primary" placeholder="room message">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <ul id="room-messages"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                몬스터 HP
+            </div>
+            <div class="card-body">
+                <form action="">
+                    <div class="input-group mb-3">
+                        <input type="text" id= "monster-hp" value="10000" readonly>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        <button style="margin-top:3% " id="attack-send" class="btn btn-primary">공격</button>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    $(() => {
+        /** Socket Starts **/
+        const socket = io();
+
+
+        $('#msg-send').click(() => {
+            socket.emit('waitRoom-message', $('#message').val());
+            $('#message').val('');
+            return false;
+        });
+
+        $('.star_btn').click(() => {
+            let roomName = $('#starwings').val();
+            $('#select-room').val(roomName);
+            socket.emit('req_join_room', roomName);
+        })
+
+        $('.norri_btn').click(() => {
+            let roomName = $('#norriGum').val();
+            $('#select-room').val(roomName);
+            socket.emit('req_join_room', roomName);
+        })
+
+        $('.dmc_btn').click(() => {
+            let roomName = $('#dmc').val();
+            $('#select-room').val(roomName);
+            socket.emit('req_join_room', roomName);
+        })
+
+        $('#startwings_out').click(() => {
+            let roomName = $('#starwings').val();
+            $('#select-room').val('none');
+            socket.emit('req_out_room', roomName);
+        })
+
+        $('#select-weapon-button').click(() => {
+            let weapon = $('#select-weapon').val();
+            socket.emit('req_select_weapon', weapon);
+            $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + weapon + ' 데미지 무기를 장착했습니다.'));
+
+        });
+
+
+
+        $('#room-msg-send').click(() => {
+            socket.emit('req_room_message', $('#room-message').val());
+            $('#room-message').val('');
+            return false;
+        });
+
+
+        $('#user-send').click(()=>{
+            let user_name = $('#user-name').val();
+            socket.emit('req_user_name',user_name);
+            return false;
+
+        })
+
+        $('#attack-send').click(() => {
+            socket.emit('attack-damage', $('#attack-damage').val());
+            $('#attack-damage').val('');
+            return false;
+        });
+
+        socket.on('waitRoom-message', (res) => {
+            $('#messages').prepend($('<li>').text(res));
+        });
+
+        socket.on('noti_join_room', (res,hp) => {
+            console.log('hp',hp);
+            $('#room-messages').prepend($('<li>').text(res));
+            $('#monster-hp').show();
+            $('#monster-hp').val(hp);
+        });
+
+        socket.on('noti_room_message', (res) => {
+            $('#room-messages').prepend($('<li>').text(res));
+        });
+
+        socket.on('noti_out_message', (res,name) => {
+            $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + res + ' 를 나갔습니다'));
+        });
+
+        socket.on('attack-damage', (name,weapon,hp) => {
+            console.log('attack',hp);
+            $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + weapon + ' 공격 데미지'));
+            const mhp = $('#monster-hp').val();
+            $('#monster-hp').show();
+            $('#monster-hp').val(hp);
+        });
+
+    });
+</script>
+</body>
+</html>
