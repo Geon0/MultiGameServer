@@ -167,7 +167,7 @@
             <div class="card-body">
                 <form action="">
                     <div class="input-group mb-3">
-                        <input type="text" id= "monster-hp" value="10000" readonly>
+                        <input type="text" id= "monster-hp" readonly>
                     </div>
                 </form>
             </div>
@@ -179,8 +179,10 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     $(() => {
-        /** Socket Starts **/
-        const socket = io();
+        const socket = io.connect('http://localhost:4000', { // ws:// 를 안쓰고 http를 쓴다
+            path: '/socket.io', // 서버 path와 일치시켜준다
+            transports: ['websocket']
+        });
 
 
         $('#msg-send').click(() => {
@@ -216,8 +218,6 @@
         $('#select-weapon-button').click(() => {
             let weapon = $('#select-weapon').val();
             socket.emit('req_select_weapon', weapon);
-            $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + weapon + ' 데미지 무기를 장착했습니다.'));
-
         });
 
 
@@ -247,7 +247,6 @@
         });
 
         socket.on('noti_join_room', (res,hp) => {
-            console.log('hp',hp);
             $('#room-messages').prepend($('<li>').text(res));
             $('#monster-hp').show();
             $('#monster-hp').val(hp);
@@ -259,6 +258,10 @@
 
         socket.on('noti_out_message', (res,name) => {
             $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + res + ' 를 나갔습니다'));
+        });
+
+        socket.on('noti_weapon_change', (weapon,name) => {
+            $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + weapon +' 무기를 착용했습니다'));
         });
 
         socket.on('attack-damage', (name,weapon,hp) => {
