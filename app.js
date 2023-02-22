@@ -54,18 +54,17 @@ io.on("connection", (socket) => {
   // 소켓 자동 종료 시간 설정
   setTimeout(function () {
     console.log(gameMin + ' 분 지남');
+    let userCurrentRoom = getUserCurrentRoom(socket);
+    io.to(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
     socket.disconnect();
   }, gameMin*60000);
 
-  count++
   let rooms = [];
-  socket.num = count
   socket.weapon = 10;
 
   console.log('클라이언트 접속',socket.id);
   console.log('현재 시각 : ' + startDate);
   console.log('종료 시각 시간 : ' + endDate);
-  console.log('현재 기본 nameSpace에 ',socket.num + ' 명 접속해 있습니다');
 
 
   socket.on("disconnect", async () => {
