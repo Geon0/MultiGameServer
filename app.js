@@ -33,6 +33,17 @@ function getMonsterHp(value) {
   return monsterHp
 }
 
+function calDmg(value) {
+  const ranNum = Math.floor((Math.random() * 99) +1);
+  const criNum = 20;
+  let dmg = value;
+  if(criNum > ranNum) {
+    const ranNum = Math.floor((Math.random() * 20) +1);
+    dmg += ranNum;
+  }
+  return dmg;
+}
+
 // namespace 지정
 // const norriGum = io.of('/norriGum');
 //
@@ -48,23 +59,27 @@ let endDate = new Date(startDate);
 const gameMin = 1;
 endDate.setMinutes(startDate.getMinutes()+gameMin);
 
-
 io.on("connection", (socket) => {
 
   // 소켓 자동 종료 시간 설정
-  setTimeout(function () {
-    console.log(gameMin + ' 분 지남');
-    let userCurrentRoom = getUserCurrentRoom(socket);
-    io.to(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
-    socket.disconnect();
-  }, gameMin*60000);
+  setInterval(function () {
+    let now = new Date();
+    console.log('현재시간',now);
+    console.log('종료시간',endDate);
+    if(now>endDate){
+      let userCurrentRoom = getUserCurrentRoom(socket);
+      io.to(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
+      socket.disconnect();
+    }
+  }, 1000);
+
 
   let rooms = [];
   socket.weapon = 10;
 
   console.log('클라이언트 접속',socket.id);
-  console.log('현재 시각 : ' + startDate);
-  console.log('종료 시각 시간 : ' + endDate);
+  console.log('접속 시간  : ' + startDate);
+  console.log('종료 시간 : ' + endDate);
 
 
   socket.on("disconnect", async () => {
@@ -118,8 +133,9 @@ io.on("connection", (socket) => {
 
   socket.on("attack-damage", async () => {
     let userCurrentRoom = getUserCurrentRoom(socket);
-    const value =  getMonsterHp(socket.weapon);
-    io.to(userCurrentRoom).emit("attack-damage", socket.userName, socket.weapon, value);
+    const dmg = calDmg(socket.weapon);
+    const value =  getMonsterHp(dmg);
+    io.to(userCurrentRoom).emit("attack-damage", socket.userName, dmg, value);
     if(value <= 0 ) {
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
      socket.leave(userCurrentRoom);
