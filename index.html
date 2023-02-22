@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    <div class="row" style="padding:3%">
+    <div class="row" style="padding:6%">
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
@@ -74,36 +74,36 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">norriGum</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>몬스터 레이드</li>
-                            <li>경품 : 없음</li>
-                        </ul>
-                        <button type="button" id="norriGum" class="w-100 btn btn-lg btn-outline-primary norri_btn" value="norriGum">참여하기</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">dmc</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>몬스터 레이드</li>
-                            <li>경품 : 없음</li>
-                        </ul>
-                        <button type="button" id="dmc" class="w-100 btn btn-lg btn-outline-primary dmc_btn" value="dmc">참여하기</button>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="col">-->
+<!--                <div class="card mb-4 rounded-3 shadow-sm">-->
+<!--                    <div class="card-header py-3">-->
+<!--                        <h4 class="my-0 fw-normal">norriGum</h4>-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>-->
+<!--                        <ul class="list-unstyled mt-3 mb-4">-->
+<!--                            <li>몬스터 레이드</li>-->
+<!--                            <li>경품 : 없음</li>-->
+<!--                        </ul>-->
+<!--                        <button type="button" id="norriGum" class="w-100 btn btn-lg btn-outline-primary norri_btn" value="norriGum">참여하기</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <div class="card mb-4 rounded-3 shadow-sm">-->
+<!--                    <div class="card-header py-3">-->
+<!--                        <h4 class="my-0 fw-normal">dmc</h4>-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>-->
+<!--                        <ul class="list-unstyled mt-3 mb-4">-->
+<!--                            <li>몬스터 레이드</li>-->
+<!--                            <li>경품 : 없음</li>-->
+<!--                        </ul>-->
+<!--                        <button type="button" id="dmc" class="w-100 btn btn-lg btn-outline-primary dmc_btn" value="dmc">참여하기</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 
@@ -140,8 +140,8 @@
                     <select id="select-room" class="form-control">
                         <option value="none" disabled="disabled" selected="selected">방을 선택해주세요</option>
                         <option value="starwings" disabled="disabled">starwings</option>
-                        <option value="norriGum" disabled="disabled">norriGum</option>
-                        <option value="dmc" disabled="disabled">dmc</option>
+<!--                        <option value="norriGum" disabled="disabled">norriGum</option>-->
+<!--                        <option value="dmc" disabled="disabled">dmc</option>-->
                     </select>
                 </div>
                 <form action="">
@@ -197,17 +197,17 @@
             socket.emit('req_join_room', roomName);
         })
 
-        $('.norri_btn').click(() => {
-            let roomName = $('#norriGum').val();
-            $('#select-room').val(roomName);
-            socket.emit('req_join_room', roomName);
-        })
-
-        $('.dmc_btn').click(() => {
-            let roomName = $('#dmc').val();
-            $('#select-room').val(roomName);
-            socket.emit('req_join_room', roomName);
-        })
+        // $('.norri_btn').click(() => {
+        //     let roomName = $('#norriGum').val();
+        //     $('#select-room').val(roomName);
+        //     socket.emit('req_join_room', roomName);
+        // })
+        //
+        // $('.dmc_btn').click(() => {
+        //     let roomName = $('#dmc').val();
+        //     $('#select-room').val(roomName);
+        //     socket.emit('req_join_room', roomName);
+        // })
 
         $('#startwings_out').click(() => {
             let roomName = $('#starwings').val();
@@ -262,6 +262,10 @@
 
         socket.on('noti_weapon_change', (weapon,name) => {
             $('#room-messages').prepend($('<li>').text(name + ' 님이 ' + weapon +' 무기를 착용했습니다'));
+        });
+
+        socket.on('noti_end_message', (res) => {
+            $('#room-messages').prepend($('<li>').text(res));
         });
 
         socket.on('attack-damage', (name,weapon,hp) => {

@@ -1,6 +1,7 @@
 const app = require("express")();
 const server = require("http").createServer(app);
 const SocketIO = require('socket.io');
+const Console = require("console");
 // 서버 연결, path는 프론트와 일치시켜준다.
 const io = SocketIO(server,{path: '/socket.io'});
 const port = 4000;
@@ -25,33 +26,47 @@ function getUserCurrentRoom(socket) {
   }
 }
 
-//namespace 지정
-// const starwings = io.of('/starwings');
-//
-// starwings.on('connection', (socket) => {
-//   console.log('starwings 네임스페이스에 접속');
-//   socket.on('disconnect', () => {
-//     console.log('starwings 네임스페이스 접속 해제');
-//   });
-// });
-
+let count = 0;// 몬스터 체력 받아오기
 let monsterHp = 10000;
-let count = 0;
-let roomCount = 0;
-let date_ob = new Date();
-// 몬스터 체력 받아오기
 function getMonsterHp(value) {
   if(value) monsterHp -= value
   return monsterHp
 }
 
+// namespace 지정
+// const norriGum = io.of('/norriGum');
+//
+// norriGum.on('connection', (socket) => {
+//   console.log('norriGum 네임스페이스에 접속');
+//   socket.on('disconnect', () => {
+//     console.log('norriGum 네임스페이스 접속 해제');
+//   });
+// });
+
+let startDate = new Date();
+let endDate = new Date(startDate);
+const gameMin = 1;
+endDate.setMinutes(startDate.getMinutes()+gameMin);
+
+
 io.on("connection", (socket) => {
+
+  // 소켓 자동 종료 시간 설정
+  setTimeout(function () {
+    console.log(gameMin + ' 분 지남');
+    socket.disconnect();
+  }, gameMin*60000);
+
   count++
+  let rooms = [];
   socket.num = count
   socket.weapon = 10;
+
   console.log('클라이언트 접속',socket.id);
-  console.log('현재 시각 : ' +date_ob);
-  console.log('socket count',socket.num + ' 명 접속해 있습니다');
+  console.log('현재 시각 : ' + startDate);
+  console.log('종료 시각 시간 : ' + endDate);
+  console.log('현재 기본 nameSpace에 ',socket.num + ' 명 접속해 있습니다');
+
 
   socket.on("disconnect", async () => {
     console.log('클라이언트 접속 해제', socket.id);
@@ -72,9 +87,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("req_join_room", async (msg) => {
-    roomCount++
+
     const value =  getMonsterHp();
-    let rooms = [];
     let roomName = "Room_" + msg;
     if (!rooms.includes(roomName)) {
       rooms.push(roomName);
@@ -105,11 +119,14 @@ io.on("connection", (socket) => {
 
   socket.on("attack-damage", async () => {
     let userCurrentRoom = getUserCurrentRoom(socket);
-   const value =  getMonsterHp(socket.weapon);
-   if(value < 1 ) {
-     socket.disconnect();
-   }
+    const value =  getMonsterHp(socket.weapon);
     io.to(userCurrentRoom).emit("attack-damage", socket.userName, socket.weapon, value);
+    if(value <= 0 ) {
+     io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
+     socket.leave(userCurrentRoom);
+     // socket.disconnect();
+     // io.close();
+   }
   });
 });
 
