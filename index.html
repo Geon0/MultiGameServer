@@ -179,7 +179,7 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     $(() => {
-        const socket = io.connect('http://localhost:4000', { // ws:// 를 안쓰고 http를 쓴다
+        const socket = io.connect('http://3.36.115.232:4000', { // ws:// 를 안쓰고 http를 쓴다
             path: '/socket.io', // 서버 path와 일치시켜준다
             transports: ['websocket']
         });
