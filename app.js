@@ -67,20 +67,18 @@ function setEndTime(){
 
 
 io.on("connection", (socket) => {
-  console.log('socket 시작');
 
-  // let endTime = setEndTime();
-  // setInterval(function () {
-  //   let now = new Date();
-  //   console.log('현재시간',now);
-  //   console.log('종료시간',endTime);
-  //   if(now>endTime){
-  //     let userCurrentRoom = getUserCurrentRoom(socket);
-  //     io.sockets.in(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
-  //     getMonsterHp(0,true);
-  //     io.sockets.disconnectSockets();
-  //   }
-  // }, 1000);
+  let endTime = setEndTime();
+  setInterval(function () {
+    let now = new Date();
+    console.log('현재시간',now);
+    console.log('종료시간',endTime);
+    if(now>endTime){
+      io.to(socket.id).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
+      getMonsterHp(0,true);
+      socket.disconnect();
+    }
+  }, 1000);
 
 
   let rooms = [];
@@ -113,7 +111,6 @@ io.on("connection", (socket) => {
       rooms.push(roomName);
     }
     socket.join(roomName);
-    endTime = setEndTime();
     io.to(roomName).emit(
         "noti_join_room",
         socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",value
