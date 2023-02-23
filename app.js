@@ -14,21 +14,24 @@ app.get("/", (req, res) => {
 // 소켓이 현재 연결된 방의 이름
 function getUserCurrentRoom(socket) {
   const room1 = "Room_starwings";
-  const room2 = "Room_norriGum";
-  const room3 = "Room_dmc";
+  // const room2 = "Room_norriGum";
+  // const room3 = "Room_dmc";
 
-  if (socket.rooms.has("Room_starwings")) {
-    return room1;
-  } else if (socket.rooms.has("Room_norriGum")) {
-    return room2;
-  } else if (socket.rooms.has("Room_dmc")) {
-    return room3;
-  }
+  // if (socket.rooms.has("Room_starwings")) {
+  //   return room1;
+  // } else if (socket.rooms.has("Room_norriGum")) {
+  //   return room2;
+  // } else if (socket.rooms.has("Room_dmc")) {
+  //   return room3;
+  // }
+  return room1;
 }
 
-let count = 0;// 몬스터 체력 받아오기
 let monsterHp = 10000;
-function getMonsterHp(value) {
+const gameMin = 1;
+
+function getMonsterHp(value,reset) {
+  if(reset) monsterHp = 10000;
   if(value) monsterHp -= value
   return monsterHp
 }
@@ -38,8 +41,7 @@ function calDmg(value) {
   const criNum = 20;
   let dmg = value;
   if(criNum > ranNum) {
-    const ranNum = Math.floor((Math.random() * 20) +1);
-    dmg += ranNum;
+   dmg += 15
   }
   return dmg;
 }
@@ -54,38 +56,41 @@ function calDmg(value) {
 //   });
 // });
 
-let startDate = new Date();
-let endDate = new Date(startDate);
-const gameMin = 1;
-endDate.setMinutes(startDate.getMinutes()+gameMin);
+function setEndTime(){
+  let startDate = new Date();
+  let endDate = new Date(startDate);
+  endDate.setMinutes(startDate.getMinutes()+gameMin);
+  console.log('접속 시간  : ' + startDate);
+  console.log('종료 시간 : ' + endDate);
+  return endDate;
+}
+
 
 io.on("connection", (socket) => {
+  console.log('socket 시작');
 
-  // 소켓 자동 종료 시간 설정
-  setInterval(function () {
-    let now = new Date();
-    console.log('현재시간',now);
-    console.log('종료시간',endDate);
-    if(now>endDate){
-      let userCurrentRoom = getUserCurrentRoom(socket);
-      io.to(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
-      socket.disconnect();
-    }
-  }, 1000);
+  // let endTime = setEndTime();
+  // setInterval(function () {
+  //   let now = new Date();
+  //   console.log('현재시간',now);
+  //   console.log('종료시간',endTime);
+  //   if(now>endTime){
+  //     let userCurrentRoom = getUserCurrentRoom(socket);
+  //     io.sockets.in(userCurrentRoom).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
+  //     getMonsterHp(0,true);
+  //     io.sockets.disconnectSockets();
+  //   }
+  // }, 1000);
 
 
   let rooms = [];
   socket.weapon = 10;
 
-  console.log('클라이언트 접속',socket.id);
-  console.log('접속 시간  : ' + startDate);
-  console.log('종료 시간 : ' + endDate);
-
-
   socket.on("disconnect", async () => {
     console.log('클라이언트 접속 해제', socket.id);
     clearInterval(socket.interval);
-  });
+  },1000);
+
 
   socket.on('error', (error) => {
     console.error(error);
@@ -108,6 +113,7 @@ io.on("connection", (socket) => {
       rooms.push(roomName);
     }
     socket.join(roomName);
+    endTime = setEndTime();
     io.to(roomName).emit(
         "noti_join_room",
         socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",value
@@ -138,8 +144,9 @@ io.on("connection", (socket) => {
     io.to(userCurrentRoom).emit("attack-damage", socket.userName, dmg, value);
     if(value <= 0 ) {
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
-     socket.leave(userCurrentRoom);
-     // socket.disconnect();
+      getMonsterHp(0,true);
+      io.sockets.disconnectSockets();
+     // socket.leave(userCurrentRoom);
      // io.close();
    }
   });
