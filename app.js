@@ -75,7 +75,6 @@ io.on("connection", (socket) => {
     console.log('종료시간',endTime);
     if(now>endTime){
       io.to(socket.id).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
-      getMonsterHp(0,true);
       socket.disconnect();
     }
   }, 1000);
@@ -86,6 +85,10 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", async () => {
     console.log('클라이언트 접속 해제', socket.id);
+
+    if(io.engine.clientsCount === 1) {
+      getMonsterHp(0,true);
+    }
     clearInterval(socket.interval);
   },1000);
 
