@@ -67,6 +67,20 @@ function setEndTime(){
 
 
 io.on("connection", (socket) => {
+  let rooms = [];
+  socket.weapon = 10;
+
+  const value =  getMonsterHp();
+  let roomName = "Room_starwings";
+  if (!rooms.includes(roomName)) {
+    rooms.push(roomName);
+  }
+  socket.join(roomName);
+  io.to(roomName).emit(
+      "noti_join_room",
+      socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",value
+  );
+
 
   let endTime = setEndTime();
   setInterval(function () {
@@ -80,8 +94,6 @@ io.on("connection", (socket) => {
   }, 1000);
 
 
-  let rooms = [];
-  socket.weapon = 10;
 
   socket.on("disconnect", async () => {
     console.log('클라이언트 접속 해제', socket.id);
@@ -106,19 +118,19 @@ io.on("connection", (socket) => {
     socket.userName = msg;
   });
 
-  socket.on("req_join_room", async (msg) => {
-
-    const value =  getMonsterHp();
-    let roomName = "Room_" + msg;
-    if (!rooms.includes(roomName)) {
-      rooms.push(roomName);
-    }
-    socket.join(roomName);
-    io.to(roomName).emit(
-        "noti_join_room",
-        socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",value
-    );
-  });
+  // socket.on("req_join_room", async (msg) => {
+  //
+  //   const value =  getMonsterHp();
+  //   let roomName = "Room_" + msg;
+  //   if (!rooms.includes(roomName)) {
+  //     rooms.push(roomName);
+  //   }
+  //   socket.join(roomName);
+  //   io.to(roomName).emit(
+  //       "noti_join_room",
+  //       socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",value
+  //   );
+  // });
 
   socket.on("req_select_weapon", async (msg) => {
     let userCurrentRoom = getUserCurrentRoom(socket);
