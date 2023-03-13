@@ -37,7 +37,17 @@ function calDmg(value) {
   return dmg;
 }
 
-function calUserDmg(socket,value) {
+function updateDmg(array,index,dmg) {
+  array[index+1] += dmg;
+}
+
+function calUserDmg(socket,dmg) {
+  if (!user.includes(socket.id)) {
+    user.push(socket.id,dmg);
+  }else {
+    const index = user.indexOf(socket.id);
+    updateDmg(user,index,dmg)
+  }
   console.log('user',user);
 }
 
@@ -55,9 +65,6 @@ io.on("connection", (socket) => {
   socket.weapon = 100;
   const mHp =  getMonsterHp();
   let roomName = getUserCurrentRoom();
-  if (!user.includes(socket.id)) {
-    user.push(socket.id);
-  }
   socket.join(roomName);
   io.to(roomName).emit(
       "noti_join_room",
@@ -67,8 +74,8 @@ io.on("connection", (socket) => {
   let endTime = setEndTime();
   setInterval(function () {
     let now = new Date();
-    console.log('현재시간',now);
-    console.log('종료시간',endTime);
+    // console.log('현재시간',now);
+    // console.log('종료시간',endTime);
     if(now>endTime){
       io.to(socket.id).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
       socket.disconnect();
@@ -100,7 +107,7 @@ io.on("connection", (socket) => {
   socket.on("req_out_room", async (msg) => {
     let userCurrentRoom = getUserCurrentRoom(socket);
     socket.leave(userCurrentRoom);
-    io.to(userCurrentRoom).emit("noti_out_message", msg, socket.userName);
+    io.to(userCurrentRoom).emit("noti_out_message", msg, socket.id);
   });
 
   socket.on("attack-damage", async () => {
@@ -110,7 +117,8 @@ io.on("connection", (socket) => {
     calUserDmg(socket,dmg);
     io.to(userCurrentRoom).emit("attack-damage", socket.id, dmg, value);
     if(value <= 0 ) {
-     io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
+      console.log('end',user);
+     io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!' , user);
       getMonsterHp(0,true);
       io.sockets.disconnectSockets();
      // socket.leave(userCurrentRoom);
