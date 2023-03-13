@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 
 let monsterHp = 1000;
 const gameMin = 10;
+let user=[];
 
 // 소켓이 현재 연결된 방의 이름
 function getUserCurrentRoom() {
@@ -36,6 +37,10 @@ function calDmg(value) {
   return dmg;
 }
 
+function calUserDmg(socket,value) {
+  console.log('user',user);
+}
+
 function setEndTime(){
   let startDate = new Date();
   let endDate = new Date(startDate);
@@ -46,15 +51,17 @@ function setEndTime(){
 }
 
 io.on("connection", (socket) => {
-  console.log('inside connection');
+  console.log('inside');
   socket.weapon = 100;
   const mHp =  getMonsterHp();
-  console.log('mHP',mHp);
   let roomName = getUserCurrentRoom();
+  if (!user.includes(socket.id)) {
+    user.push(socket.id);
+  }
   socket.join(roomName);
   io.to(roomName).emit(
       "noti_join_room",
-      socket.userName + " 님이 " + roomName + "방에 입장하였습니다.",mHp
+      socket.id + " 님이 " + roomName + "방에 입장하였습니다.",mHp
   );
 
   let endTime = setEndTime();
@@ -70,7 +77,6 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", async () => {
     console.log('클라이언트 접속 해제', socket.id);
-
     if(io.engine.clientsCount === 1) {
       getMonsterHp(0,true);
     }
@@ -101,7 +107,8 @@ io.on("connection", (socket) => {
     let userCurrentRoom = getUserCurrentRoom(socket);
     const dmg = calDmg(socket.weapon);
     const value =  getMonsterHp(dmg);
-    io.to(userCurrentRoom).emit("attack-damage", socket.userName, dmg, value);
+    calUserDmg(socket,dmg);
+    io.to(userCurrentRoom).emit("attack-damage", socket.id, dmg, value);
     if(value <= 0 ) {
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
       getMonsterHp(0,true);
