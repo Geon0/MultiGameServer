@@ -28,7 +28,7 @@ function getUserCurrentRoom(socket) {
 }
 
 let monsterHp = 10000;
-const gameMin = 1;
+const gameMin = 10;
 
 function getMonsterHp(value,reset) {
   if(reset) monsterHp = 10000;
