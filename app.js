@@ -22,7 +22,7 @@ function getUserCurrentRoom() {
 }
 
 function getMonsterHp(value,reset) {
-  if(reset) monsterHp = 1000;
+  if(reset) monsterHp = 5000;
   if(value) monsterHp -= value
   return monsterHp
 }
@@ -53,7 +53,6 @@ function calUserDmg(socket,dmg) {
     const index = user.indexOf(socket.id);
     updateDmg(user,index,dmg)
   }
-  console.log('user',user);
 }
 
 function setEndTime(){
