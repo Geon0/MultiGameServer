@@ -65,7 +65,6 @@ function setEndTime(){
 }
 
 io.on("connection", (socket) => {
-  console.log('inside');
   socket.weapon = 100;
   const mHp =  getMonsterHp();
   let roomName = getUserCurrentRoom();
@@ -130,6 +129,12 @@ io.on("connection", (socket) => {
      // socket.leave(userCurrentRoom);
      // io.close();
    }
+  });
+
+  socket.on("check-hp", async () => {
+    let userCurrentRoom = getUserCurrentRoom(socket);
+    const value = getMonsterHp();
+    io.to(userCurrentRoom).emit("monster-hp", value);
   });
 });
 
