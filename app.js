@@ -105,8 +105,8 @@ io.on("connection", (socket) => {
     if(value <= 0 ) {
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!');
       getMonsterHp(0,true);
-      io.sockets.disconnectSockets();
-     // socket.leave(userCurrentRoom);
+      socket.leave(userCurrentRoom);
+      //io.sockets.disconnectSockets();
      // io.close();
    }
   });
