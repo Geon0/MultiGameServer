@@ -38,12 +38,17 @@ function calDmg(value) {
 }
 
 function updateDmg(array,index,dmg) {
-  array[index+1] += dmg;
+  let value = array[index+1];
+  if(typeof value === 'string') {
+    value *= 1;
+  }
+  const calDmg = value + dmg;
+  array[index+1] = String(calDmg);
 }
 
 function calUserDmg(socket,dmg) {
   if (!user.includes(socket.id)) {
-    user.push(socket.id,dmg);
+    user.push(socket.id,String(dmg));
   }else {
     const index = user.indexOf(socket.id);
     updateDmg(user,index,dmg)
@@ -108,6 +113,9 @@ io.on("connection", (socket) => {
     let userCurrentRoom = getUserCurrentRoom(socket);
     socket.leave(userCurrentRoom);
     io.to(userCurrentRoom).emit("noti_out_message", msg, socket.id);
+    if(io.engine.clientsCount === 1) {
+      getMonsterHp(0,true);
+    }
   });
 
   socket.on("attack-damage", async () => {
