@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-let monsterHp = 1000;
+let monsterHp = 5000;
 const gameMin = 10;
 let user=[];
 
@@ -125,7 +125,6 @@ io.on("connection", (socket) => {
     calUserDmg(socket,dmg);
     io.to(userCurrentRoom).emit("attack-damage", socket.id, dmg, value);
     if(value <= 0 ) {
-      console.log('end',user);
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!' , user);
       getMonsterHp(0,true);
       io.sockets.disconnectSockets();
