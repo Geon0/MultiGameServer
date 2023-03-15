@@ -34,7 +34,7 @@ function calDmg(value) {
   if(criNum > ranNum) {
    dmg += 50
   }
-  return dmg;
+  return [dmg,criNum > ranNum];
 }
 
 function updateDmg(array,index,dmg) {
@@ -118,10 +118,10 @@ io.on("connection", (socket) => {
 
   socket.on("attack-damage", async () => {
     let userCurrentRoom = getUserCurrentRoom(socket);
-    const dmg = calDmg(socket.weapon);
+    const [dmg, critical] = calDmg(socket.weapon);
     const value =  getMonsterHp(dmg);
     calUserDmg(socket,dmg);
-    io.to(userCurrentRoom).emit("attack-damage", socket.id, dmg, value);
+    io.to(userCurrentRoom).emit("attack-damage", socket.id, value, dmg, critical);
     if(value <= 0 ) {
      io.to(userCurrentRoom).emit("noti_end_message", '몬스터 격퇴 완료 !! 게임이 종료되었습니다!' , user);
       getMonsterHp(0,true);
