@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-let monsterHp = 5000;
+let monsterHp = 10000000;
 const gameMin = 10;
 let user=[];
 
@@ -22,7 +22,7 @@ function getUserCurrentRoom() {
 }
 
 function getMonsterHp(value,reset) {
-  if(reset) monsterHp = 5000;
+  if(reset) monsterHp = 10000000;
   if(value) monsterHp -= value
   return monsterHp
 }
@@ -66,7 +66,7 @@ function setEndTime(){
 
 io.on("connection", (socket) => {
   socket.weapon = 100;
-  const orginMhp = 5000;
+  const orginMhp = 10000000;
   const mHp =  getMonsterHp();
   let roomName = getUserCurrentRoom();
   socket.join(roomName);
