@@ -66,12 +66,13 @@ function setEndTime(){
 
 io.on("connection", (socket) => {
   socket.weapon = 100;
+  const orginMhp = 5000;
   const mHp =  getMonsterHp();
   let roomName = getUserCurrentRoom();
   socket.join(roomName);
   io.to(roomName).emit(
       "noti_join_room",
-      socket.id + " 님이 " + roomName + "방에 입장하였습니다.",mHp
+      socket.id + " 님이 " + roomName + "방에 입장하였습니다.",mHp,orginMhp
   );
 
   let endTime = setEndTime();
