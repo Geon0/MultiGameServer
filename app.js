@@ -11,6 +11,9 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
+const gameRouter = require('./routes/gameController');
+app.use('/game',gameRouter);
+
 let monsterHp = 10000000;
 const gameMin = 10;
 let user=[];
@@ -142,3 +145,5 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log("Connected at " + port);
 });
+
+module.exports = app;
