@@ -17,67 +17,57 @@
 </head>
 <body>
 <div class="main">
-    <!-- 대기실 -->
-    <div class="col-lg-4" style="padding-top:5%">
-        <div class="card">
-            <div class="card-header">
-                대기실 (모든 유저 대화 가능)
-            </div>
-            <div class="card-body">
-                <form action="">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="message"/>
-                        <div class="input-group-append">
-                            <button id="msg-send" class="btn btn-primary">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer">
-                <ul id="messages"></ul>
-            </div>
-        </div>
-    </div>
-    <!-- 유저 이름 -->
-    <div class="col-lg-4" style="padding-top:3%">
-        <div class="card">
-            <div class="card-header">
-                유저이름
-            </div>
-            <div class="card-body">
-                <form action="">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="user-name"/>
-                        <div class="input-group-append">
-                            <button id="user-send" class="btn btn-primary">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="padding:6%">
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">StarWings</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>몬스터 레이드</li>
-                            <li>경품 : 없음</li>
-                        </ul>
-                        <button type="button" id="starwings" class="w-100 btn btn-lg btn-outline-primary star_btn" value="starwings">참여하기</button>
-                        <button style="margin-top: 20%" type="button" id="startwings_out" class="w-100 btn btn-lg btn-outline-primary">나가기</button>
-                    </div>
-                </div>
-            </div>
+    <iframe
+            allow="microphone;"
+            width="350"
+            height="430"
+            src="https://console.dialogflow.com/api-client/demo/embedded/23edf99e-38cb-47bf-829f-78ae0d9701e4">
+    </iframe>
+<!--    &lt;!&ndash; 대기실 &ndash;&gt;-->
+<!--    <div class="col-lg-4" style="padding-top:5%">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                대기실 (모든 유저 대화 가능)-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <form action="">-->
+<!--                    <div class="input-group mb-3">-->
+<!--                        <input type="text" class="form-control" id="message"/>-->
+<!--                        <div class="input-group-append">-->
+<!--                            <button id="msg-send" class="btn btn-primary">Send</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="card-footer">-->
+<!--                <ul id="messages"></ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    &lt;!&ndash; 유저 이름 &ndash;&gt;-->
+<!--    <div class="col-lg-4" style="padding-top:3%">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                유저이름-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <form action="">-->
+<!--                    <div class="input-group mb-3">-->
+<!--                        <input type="text" class="form-control" id="user-name"/>-->
+<!--                        <div class="input-group-append">-->
+<!--                            <button id="user-send" class="btn btn-primary">Send</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" style="padding:6%">-->
+<!--        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">-->
 <!--            <div class="col">-->
 <!--                <div class="card mb-4 rounded-3 shadow-sm">-->
 <!--                    <div class="card-header py-3">-->
-<!--                        <h4 class="my-0 fw-normal">norriGum</h4>-->
+<!--                        <h4 class="my-0 fw-normal">StarWings</h4>-->
 <!--                    </div>-->
 <!--                    <div class="card-body">-->
 <!--                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>-->
@@ -85,95 +75,111 @@
 <!--                            <li>몬스터 레이드</li>-->
 <!--                            <li>경품 : 없음</li>-->
 <!--                        </ul>-->
-<!--                        <button type="button" id="norriGum" class="w-100 btn btn-lg btn-outline-primary norri_btn" value="norriGum">참여하기</button>-->
+<!--                        <button type="button" id="starwings" class="w-100 btn btn-lg btn-outline-primary star_btn" value="starwings">참여하기</button>-->
+<!--                        <button style="margin-top: 20%" type="button" id="startwings_out" class="w-100 btn btn-lg btn-outline-primary">나가기</button>-->
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-<!--            <div class="col">-->
-<!--                <div class="card mb-4 rounded-3 shadow-sm">-->
-<!--                    <div class="card-header py-3">-->
-<!--                        <h4 class="my-0 fw-normal">dmc</h4>-->
-<!--                    </div>-->
-<!--                    <div class="card-body">-->
-<!--                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>-->
-<!--                        <ul class="list-unstyled mt-3 mb-4">-->
-<!--                            <li>몬스터 레이드</li>-->
-<!--                            <li>경품 : 없음</li>-->
-<!--                        </ul>-->
-<!--                        <button type="button" id="dmc" class="w-100 btn btn-lg btn-outline-primary dmc_btn" value="dmc">참여하기</button>-->
+<!--&lt;!&ndash;            <div class="col">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="card mb-4 rounded-3 shadow-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="card-header py-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h4 class="my-0 fw-normal">norriGum</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <ul class="list-unstyled mt-3 mb-4">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>몬스터 레이드</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>경품 : 없음</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="button" id="norriGum" class="w-100 btn btn-lg btn-outline-primary norri_btn" value="norriGum">참여하기</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="col">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="card mb-4 rounded-3 shadow-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="card-header py-3">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h4 class="my-0 fw-normal">dmc</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h1 class="card-title pricing-card-title">0<small class="text-muted fw-light">/20</small></h1>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <ul class="list-unstyled mt-3 mb-4">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>몬스터 레이드</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>경품 : 없음</li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="button" id="dmc" class="w-100 btn btn-lg btn-outline-primary dmc_btn" value="dmc">참여하기</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash;  무기 선택 &ndash;&gt;-->
+<!--    <div class="col-lg-8" style="padding-bottom: 5%">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                무기 선택-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <div class="input-group mb-1">-->
+<!--                    <select id="select-weapon" class="form-control">-->
+<!--                        <option value="10" selected="selected">기본 무기</option>-->
+<!--                        <option value="50">좀 강한 무기</option>-->
+<!--                        <option value="300" >엄청 강한 무기</option>-->
+<!--                        <option value="1000" >미친 강한 무기</option>-->
+<!--                    </select>-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button id="select-weapon-button" class="btn btn-success">Select</button>-->
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-        </div>
-    </div>
+<!--        </div>-->
+<!--    </div>-->
 
-    <!--  무기 선택 -->
-    <div class="col-lg-8" style="padding-bottom: 5%">
-        <div class="card">
-            <div class="card-header">
-                무기 선택
-            </div>
-            <div class="card-body">
-                <div class="input-group mb-1">
-                    <select id="select-weapon" class="form-control">
-                        <option value="10" selected="selected">기본 무기</option>
-                        <option value="50">좀 강한 무기</option>
-                        <option value="300" >엄청 강한 무기</option>
-                        <option value="1000" >미친 강한 무기</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button id="select-weapon-button" class="btn btn-success">Select</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    &lt;!&ndash; Room 대기실 &ndash;&gt;-->
+<!--    <div class="col-lg-8" style="padding-bottom: 5%">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                ROOM 대기실-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <div class="input-group mb-1">-->
+<!--                    <select id="select-room" class="form-control">-->
+<!--                        <option value="none" disabled="disabled" selected="selected">방을 선택해주세요</option>-->
+<!--                        <option value="starwings" disabled="disabled">starwings</option>-->
+<!--&lt;!&ndash;                        <option value="norriGum" disabled="disabled">norriGum</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <option value="dmc" disabled="disabled">dmc</option>&ndash;&gt;-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <form action="">-->
+<!--                    <div class="input-group mb-1">-->
+<!--                        <input type="text" class="form-control" id="room-message" autocomplete="off" />-->
+<!--                        <div class="input-group-append">-->
+<!--                            <button id="room-msg-send" class="btn btn-primary" placeholder="room message">Send</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <div class="card-footer">-->
+<!--                <ul id="room-messages"></ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
-    <!-- Room 대기실 -->
-    <div class="col-lg-8" style="padding-bottom: 5%">
-        <div class="card">
-            <div class="card-header">
-                ROOM 대기실
-            </div>
-            <div class="card-body">
-                <div class="input-group mb-1">
-                    <select id="select-room" class="form-control">
-                        <option value="none" disabled="disabled" selected="selected">방을 선택해주세요</option>
-                        <option value="starwings" disabled="disabled">starwings</option>
-<!--                        <option value="norriGum" disabled="disabled">norriGum</option>-->
-<!--                        <option value="dmc" disabled="disabled">dmc</option>-->
-                    </select>
-                </div>
-                <form action="">
-                    <div class="input-group mb-1">
-                        <input type="text" class="form-control" id="room-message" autocomplete="off" />
-                        <div class="input-group-append">
-                            <button id="room-msg-send" class="btn btn-primary" placeholder="room message">Send</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer">
-                <ul id="room-messages"></ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-8">
-        <div class="card">
-            <div class="card-header">
-                몬스터 HP
-            </div>
-            <div class="card-body">
-                <form action="">
-                    <div class="input-group mb-3">
-                        <input type="text" id= "monster-hp" readonly>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-        <button style="margin-top:3% " id="attack-send" class="btn btn-primary">공격</button>
+<!--    <div class="col-lg-8">-->
+<!--        <div class="card">-->
+<!--            <div class="card-header">-->
+<!--                몬스터 HP-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <form action="">-->
+<!--                    <div class="input-group mb-3">-->
+<!--                        <input type="text" id= "monster-hp" readonly>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        <button style="margin-top:3% " id="attack-send" class="btn btn-primary">공격</button>-->
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
