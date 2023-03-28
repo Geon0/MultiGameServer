@@ -11,6 +11,11 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
+app.get('/emit-stop', (req, res) => {
+  res.send('IN controller');
+})
+
+
 const gameRouter = require('./routes/gameController');
 app.use('/game',gameRouter);
 
@@ -84,7 +89,7 @@ io.on("connection", (socket) => {
     // console.log('현재시간',now);
     // console.log('종료시간',endTime);
     if(now>endTime){
-      io.to(socket.id).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!');
+      io.to(socket.id).emit("noti_end_message", '시간 종료 제한된 시간안에 클리어하지 못했습니다!!',user);
       socket.disconnect();
     }
   }, 1000);
