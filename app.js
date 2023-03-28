@@ -11,10 +11,6 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.get('/emit-stop', (req, res) => {
-  res.send('IN controller');
-})
-
 
 const gameRouter = require('./routes/gameController');
 app.use('/game',gameRouter);
@@ -144,6 +140,11 @@ io.on("connection", (socket) => {
     let userCurrentRoom = getUserCurrentRoom(socket);
     const value = getMonsterHp();
     io.to(userCurrentRoom).emit("monster-hp", value);
+  });
+
+  socket.on('ranking', async(msg) => {
+    let userCurrentRoom = getUserCurrentRoom(socket);
+    io.to(userCurrentRoom).emit("ranking", user);
   });
 });
 
