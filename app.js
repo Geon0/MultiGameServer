@@ -15,8 +15,8 @@ app.get("/", (req, res) => {
 const gameRouter = require('./routes/gameController');
 app.use('/game',gameRouter);
 
-let monsterHp = 10000000;
-const gameMin = 10;
+let monsterHp = 10000;
+const gameMin = 5;
 let user=[];
 
 // 소켓이 현재 연결된 방의 이름
@@ -26,7 +26,7 @@ function getUserCurrentRoom() {
 }
 
 function getMonsterHp(value,reset) {
-  if(reset) monsterHp = 10000000;
+  if(reset) monsterHp = 10000;
   if(value) monsterHp -= value
   return monsterHp
 }
