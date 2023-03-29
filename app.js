@@ -70,7 +70,7 @@ function setEndTime(){
 
 io.on("connection", (socket) => {
   socket.weapon = 100;
-  const orginMhp = 10000000;
+  const orginMhp = 10000;
   const mHp =  getMonsterHp();
   let roomName = getUserCurrentRoom();
   socket.join(roomName);
